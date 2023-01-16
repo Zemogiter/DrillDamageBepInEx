@@ -16,7 +16,7 @@ namespace DrillDamage
         private MeshRenderer[] renderers;
         public Drillable.ResourceType[] resources;
         [HarmonyPrefix]
-        public bool OnDrill(object __instance, Vector3 position)
+        public bool OnDrill(Drillable __instance, Vector3 position)
         {
             try
             {
@@ -57,8 +57,7 @@ namespace DrillDamage
                     };
                     int num2 = FindClosestMesh(position, out Vector3 center);
                     Plugin.Log("Result of FindClosestMesh = " + num2, 2);
-                    Drillable.ResourceType resourceType;
-                    TechType key = resourceType.techType;
+                    TechType key = __instance.GetDominantResourceType();
                     Plugin.Log("The techType is = " + key, 2);
                     var valueGet = ConfigDictionary.TryGetValue(key, out int value);
                     Plugin.Log("Value is = " + value, 2);
