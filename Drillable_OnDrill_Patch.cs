@@ -7,14 +7,16 @@ using System.Security.AccessControl;
 using BepInEx.Configuration;
 using HarmonyLib;
 using UnityEngine;
-using UWE;
+using static UnityEngine.UI.DefaultControls;
 
 namespace DrillDamage
 {
     public class Drillable_OnDrill_Patch
     {
+        private MeshRenderer[] renderers;
+        public Drillable.ResourceType[] resources;
         [HarmonyPrefix]
-        public static bool OnDrill(object __instance, Vector3 position)
+        public bool OnDrill(object __instance, Vector3 position)
         {
             try
             {
@@ -29,7 +31,7 @@ namespace DrillDamage
                 }
                 if (num > 0f)
                 {
-                    int num2 = FindClosestMesh(__instance, position);
+                    int num2 = FindClosestMesh(position, out Vector3 center);
                     traverse.GetValue<float[]>()[num2] = Mathf.Max(1f, traverse.GetValue<float[]>()[num2] - Plugin.ConfigAdditionalDamage.Value);
                 }
                 if (Plugin.ConfigVariableModeEnabled.Value == true)
@@ -53,7 +55,8 @@ namespace DrillDamage
                         { TechType.DrillableSulphur, Plugin.ConfigDrillableSulphurDamage.Value },
                         { TechType.DrillableKyanite, Plugin.ConfigDrillableKyaniteDamage.Value }
                     };
-                    int num2 = FindClosestMesh(__instance, position);
+                    int num2 = FindClosestMesh(position, out Vector3 center);
+                    Plugin.Log("Result of FindClosestMesh = " + num2, 2);
                     Drillable.ResourceType resourceType;
                     TechType key = resourceType.techType;
                     Plugin.Log("The techType is = " + key, 2);
@@ -70,11 +73,31 @@ namespace DrillDamage
             }
             return true;
         }
-
-        private static int FindClosestMesh(object __instance, Vector3 position)
+        private int FindClosestMesh(Vector3 position, out Vector3 center)
         {
-            Vector3 zero = Vector3.zero;
-            return (int)__instance.GetType().InvokeMember("FindClosestMesh", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.InvokeMethod, null, __instance, new object[2] { position, zero });
+            int result = 0;
+            float num = float.PositiveInfinity;
+            center = Vector3.zero;
+
+            for (int i = 0; i < renderers.Length; i++)
+            {
+                if (renderers[i].gameObject.activeInHierarchy)
+                {
+                    Bounds encapsulatedAABB = UWE.Utils.GetEncapsulatedAABB(renderers[i].gameObject, -1);
+                    float sqrMagnitude = (encapsulatedAABB.center - position).sqrMagnitude;
+                    if (sqrMagnitude < num)
+                    {
+                        num = sqrMagnitude;
+                        result = i;
+                        center = encapsulatedAABB.center;
+                        if (sqrMagnitude <= 0.5f)
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+            return result;
         }
     }
 }
