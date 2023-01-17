@@ -44,7 +44,7 @@ internal class Drillable_Transpiler_Patch
         { TechType.DrillableKyanite, Plugin.ConfigDrillableKyaniteDamage }
     };
 
-    private static float GetDamageForDrillable(Drillable drillable)
+    public static float GetDamageForDrillable(Drillable drillable)
     {
         float newDamage;
         if (Plugin.ConfigVariableModeEnabled.Value == false)
