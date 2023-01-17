@@ -1,6 +1,7 @@
 using System;
 using HarmonyLib;
 using UnityEngine;
+using BepInEx.Logging;
 
 namespace DrillDamage
 {
@@ -11,18 +12,20 @@ namespace DrillDamage
         [HarmonyPrefix]
         public static bool TakeDamage(LiveMixin __instance, DamageType type)
         {
+            var liveMixerLog = new ManualLogSource("DrillDamage - Creatures");
+            BepInEx.Logging.Logger.Sources.Add(liveMixerLog);
             try
             {
                 if (calling)
                 {
                     return true;
                 }
-                Plugin.Log("DrillDamage.LiveMixin.TakeDamage", 3);
+                liveMixerLog.LogInfo("DrillDamage.LiveMixin.TakeDamage");
                 if (type != DamageType.Drill || !Plugin.ConfigAffectCreatures.Value)
                 {
                     return true;
                 }
-                Plugin.Log("DrillDamage.LiveMixin.TakeDamage Damage", 3);
+                liveMixerLog.LogInfo("DrillDamage.LiveMixin.TakeDamage Damage");
                 if (__instance.health > 0f)
                 {
                     calling = true;
@@ -32,7 +35,7 @@ namespace DrillDamage
             }
             catch (Exception ex)
             {
-                Plugin.Log(ex.Message + "\r\n" + ex.StackTrace, 0);
+                liveMixerLog.LogError(ex.Message + "\r\n" + ex.StackTrace);
                 throw;
             }
             return true;
