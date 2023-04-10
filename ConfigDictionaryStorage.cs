@@ -10,22 +10,22 @@ namespace DrillDamage
     {
         public static Dictionary<TechType, int> ConfigDictionary = new()
         {
-              { TechType.DrillableSalt, Plugin.ConfigDrillableSaltDamage.Value },
-              { TechType.DrillableQuartz, Plugin.ConfigDrillableQuartzDamage.Value },
-              { TechType.DrillableCopper, Plugin.ConfigDrillableCopperDamage.Value },
-              { TechType.DrillableTitanium, Plugin.ConfigDrillableTitaniumDamage.Value },
-              { TechType.DrillableLead, Plugin.ConfigDrillableLeadDamage.Value },
-              { TechType.DrillableSilver, Plugin.ConfigDrillableSilverDamage.Value },
-              { TechType.DrillableDiamond, Plugin.ConfigDrillableDiamondDamage.Value },
-              { TechType.DrillableGold, Plugin.ConfigDrillableGoldDamage.Value },
-              { TechType.DrillableMagnetite, Plugin.ConfigDrillableMagnetiteDamage.Value },
-              { TechType.DrillableLithium, Plugin.ConfigDrillableLithiumDamage.Value },
-              { TechType.DrillableMercury, Plugin.ConfigDrillableMercuryDamage.Value },
-              { TechType.DrillableUranium, Plugin.ConfigDrillableUraniumDamage.Value },
-              { TechType.DrillableAluminiumOxide, Plugin.ConfigDrillableAluminiumOxideDamage.Value },
-              { TechType.DrillableNickel, Plugin.ConfigDrillableNickelDamage.Value },
-              { TechType.DrillableSulphur, Plugin.ConfigDrillableSulphurDamage.Value },
-              { TechType.DrillableKyanite, Plugin.ConfigDrillableKyaniteDamage.Value }
+              { TechType.Salt, Plugin.ConfigDrillableSaltDamage.Value },
+              { TechType.Quartz, Plugin.ConfigDrillableQuartzDamage.Value },
+              { TechType.Copper, Plugin.ConfigDrillableCopperDamage.Value },
+              { TechType.Titanium, Plugin.ConfigDrillableTitaniumDamage.Value },
+              { TechType.Lead, Plugin.ConfigDrillableLeadDamage.Value },
+              { TechType.Silver, Plugin.ConfigDrillableSilverDamage.Value },
+              { TechType.Diamond, Plugin.ConfigDrillableDiamondDamage.Value },
+              { TechType.Gold, Plugin.ConfigDrillableGoldDamage.Value },
+              { TechType.Magnetite, Plugin.ConfigDrillableMagnetiteDamage.Value },
+              { TechType.Lithium, Plugin.ConfigDrillableLithiumDamage.Value },
+              { TechType.MercuryOre, Plugin.ConfigDrillableMercuryDamage.Value },
+              { TechType.UraniniteCrystal, Plugin.ConfigDrillableUraniumDamage.Value },
+              { TechType.AluminumOxide, Plugin.ConfigDrillableAluminiumOxideDamage.Value },
+              { TechType.Nickel, Plugin.ConfigDrillableNickelDamage.Value },
+              { TechType.Sulphur, Plugin.ConfigDrillableSulphurDamage.Value },
+              { TechType.Kyanite, Plugin.ConfigDrillableKyaniteDamage.Value }
         };
     }
 }

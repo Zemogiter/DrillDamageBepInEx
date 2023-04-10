@@ -22,17 +22,27 @@ namespace DrillDamage
             {
                 PropertyInfo drillDamage = seamothDrillable.GetType().GetProperty("drillDamage");
 
-                if (Plugin.ConfigAffectSeamothArms.Value == true && Plugin.ConfigVariableModeEnabled.Value == false)
+                if (Plugin.ConfigAffectSeamothArms.Value == true && Plugin.ConfigVariableModeEnabled.Value == false && Plugin.ConfigSeamothAdditionalDamage.Value > 0)
                 {
-                    drillDamage.SetValue(seamothDrillable, Plugin.ConfigAdditionalDamage);
+                    drillDamage.SetValue(seamothDrillable, Plugin.ConfigAdditionalDamage.Value);
+                }
+                else if(Plugin.ConfigAffectSeamothArms.Value == true && Plugin.ConfigVariableModeEnabled.Value == false && Plugin.ConfigSeamothAdditionalDamage.Value == 0)
+                {
+                    drillDamage.SetValue(seamothDrillable, 1);
                 }
                 else if (Plugin.ConfigAffectSeamothArms.Value == true && Plugin.ConfigVariableModeEnabled.Value == true)
                 {
 
                     TechType key = __instance.GetDominantResourceType();
-                    seamothLogSource.LogInfo("The techType is = " + key);
-                    var valueGet = ConfigDictionaryStorage.ConfigDictionary.TryGetValue(key, out int value);
-                    seamothLogSource.LogInfo("Value is = " + value);
+                    if(Plugin.ConfigDebugMode.Value == true)
+                    {
+                        seamothLogSource.LogInfo("The techType is = " + key);
+                    }
+                    bool valueGet = ConfigDictionaryStorage.ConfigDictionary.TryGetValue(key, out int value);
+                    if (Plugin.ConfigDebugMode.Value == true)
+                    {
+                        seamothLogSource.LogInfo("Was the value obtained? " + valueGet + " Value is = " + value);
+                    }
                     drillDamage.SetValue(seamothDrillable, value);
                 }
             }

@@ -1,4 +1,3 @@
-using BepInEx.Configuration;
 using HarmonyLib;
 using System.Collections.Generic;
 using System.Reflection.Emit;
@@ -33,21 +32,31 @@ namespace DrillDamage
             return cins;
         }
 
-        public static float GetDamageForDrillable(Drillable drillable)
+        public static int GetDamageForDrillable(Drillable drillable)
         {
             var exosuitLogSource = new ManualLogSource("DrillDamage - Seamoth");
             BepInEx.Logging.Logger.Sources.Add(exosuitLogSource);
-            float newDamage;
-            if (Plugin.ConfigVariableModeEnabled.Value == false)
+            int newDamage;
+            if (Plugin.ConfigVariableModeEnabled.Value == false && Plugin.ConfigAdditionalDamage.Value > 0)
             {
                 newDamage = Plugin.ConfigAdditionalDamage.Value;
+            }
+            else if (Plugin.ConfigVariableModeEnabled.Value == false && Plugin.ConfigAdditionalDamage.Value == 0)
+            {
+                newDamage = 1;
             }
             else
             {
                 TechType key = drillable.GetDominantResourceType();
-                exosuitLogSource.LogInfo("The techType is = " + key);
+                if (Plugin.ConfigDebugMode.Value == true)
+                {
+                    exosuitLogSource.LogInfo("The techType is = " + key);
+                }
                 var valueGet = ConfigDictionaryStorage.ConfigDictionary.TryGetValue(key, out int value);
-                exosuitLogSource.LogInfo("Value is = " + value);
+                if (Plugin.ConfigDebugMode.Value == true)
+                {
+                    exosuitLogSource.LogInfo("Was the value obtained? " + valueGet + " Value is = " + value);
+                }
                 newDamage = value;
             }
             return newDamage;
