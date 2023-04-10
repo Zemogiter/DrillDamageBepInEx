@@ -37,14 +37,17 @@ namespace DrillDamage
             var exosuitLogSource = new ManualLogSource("DrillDamage - Seamoth");
             BepInEx.Logging.Logger.Sources.Add(exosuitLogSource);
             int newDamage;
+            //regular
             if (Plugin.ConfigVariableModeEnabled.Value == false && Plugin.ConfigAdditionalDamage.Value > 0)
             {
                 newDamage = Plugin.ConfigAdditionalDamage.Value;
             }
+            //vanilla
             else if (Plugin.ConfigVariableModeEnabled.Value == false && Plugin.ConfigAdditionalDamage.Value == 0)
             {
                 newDamage = 1;
             }
+            //variable mode enabled
             else
             {
                 TechType key = drillable.GetDominantResourceType();

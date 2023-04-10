@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DrillDamage
 {
@@ -20,7 +17,7 @@ namespace DrillDamage
               { TechType.Gold, Plugin.ConfigDrillableGoldDamage.Value },
               { TechType.Magnetite, Plugin.ConfigDrillableMagnetiteDamage.Value },
               { TechType.Lithium, Plugin.ConfigDrillableLithiumDamage.Value },
-              { TechType.MercuryOre, Plugin.ConfigDrillableMercuryDamage.Value },
+              { TechType.MercuryOre, Plugin.ConfigDrillableMercuryDamage.Value }, //cut content, can be restored via other mods so it's included
               { TechType.UraniniteCrystal, Plugin.ConfigDrillableUraniumDamage.Value },
               { TechType.AluminumOxide, Plugin.ConfigDrillableAluminiumOxideDamage.Value },
               { TechType.Nickel, Plugin.ConfigDrillableNickelDamage.Value },

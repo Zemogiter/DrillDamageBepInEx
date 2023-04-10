@@ -17,7 +17,7 @@ namespace DrillDamage
             DevConsole.RegisterConsoleCommand(this, "drillableGallery");
         }
 
-        public static void drillableGallery(NotificationCenter.Notification n)
+        public static void DrillableGallery(NotificationCenter.Notification n)
         {
             if(Plugin.ConfigDebugMode.Value == true)
             {

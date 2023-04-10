@@ -29,6 +29,7 @@ namespace DrillDamage
 
         public static ConfigEntry<int> ConfigAdditionalDamage;
         public static ConfigEntry<bool> ConfigAffectCreatures;
+        public static ConfigEntry <int> ConfigCreatureDamage;
         public static ConfigEntry<bool> ConfigAffectSeamothArms;
         public static ConfigEntry<int> ConfigSeamothAdditionalDamage;
         public static ConfigEntry<bool> ConfigDebugMode;
@@ -54,10 +55,11 @@ namespace DrillDamage
         {
             ConfigAdditionalDamage = Config.Bind(new ConfigDefinition("General", "Additional Damage"), 5, new ConfigDescription("This number will be added to drill damage calculation, making it faster.", new AcceptableValueRange<int>(0, 999)));
             ConfigAffectCreatures = Config.Bind(new ConfigDefinition("General", "Affects Creatures"), false, new ConfigDescription("Should the moddified damage calculation be applied to creatures as well?"));
+            ConfigCreatureDamage = Config.Bind(new ConfigDefinition("General", "Additional Damage - Creatures"), ConfigAdditionalDamage.Value, new ConfigDescription("Will be the same as Additional Damage by default.", new AcceptableValueRange<int>(0, 999)));
             ConfigAffectSeamothArms = Config.Bind(new ConfigDefinition("General", "Affects Seamoth Arms"), true);
             ConfigSeamothAdditionalDamage = Config.Bind(new ConfigDefinition("General", "Additional Damage - Seamoth Arms"), ConfigAdditionalDamage.Value, new ConfigDescription("Will be the same as Additional Damage by default.", new AcceptableValueRange<int>(0, 999)));
             ConfigDebugMode = Config.Bind(new ConfigDefinition("General", "Debug Mode Enabled?"), true);
-            ConfigVariableModeEnabled = Config.Bind(new ConfigDefinition("Variable Mode", "*Variable Mode Enabled?"), false, new ConfigDescription("Enabling this option will make the extra damage applied differ between the kinds of drillable resources. Disabled by default."));
+            ConfigVariableModeEnabled = Config.Bind(new ConfigDefinition("Variable Mode", "*Variable Mode Enabled?"), false, new ConfigDescription("Enabling this option will make the extra damage applied differ between the kinds of drillable resources. Disabled by default. Enabling this will ignore the Additional Damage and Additional Damage - Seamoth Arms."));
             ConfigDrillableSaltDamage = Config.Bind(new ConfigDefinition("Variable Mode", "Additional Damage - Salt"), 30, new ConfigDescription("This number will be added to drill damage calculation of this mineable resource, making it faster.", new AcceptableValueRange<int>(0, 999)));
             ConfigDrillableQuartzDamage = Config.Bind(new ConfigDefinition("Variable Mode", "Additional Damage - Quartz"), 20, new ConfigDescription("This number will be added to drill damage calculation of this mineable resource, making it faster.", new AcceptableValueRange<int>(0, 999)));
             ConfigDrillableCopperDamage = Config.Bind(new ConfigDefinition("Variable Mode", "Additional Damage - Copper"), 15, new ConfigDescription("This number will be added to drill damage calculation of this mineable resource, making it faster.", new AcceptableValueRange<int>(0, 999)));

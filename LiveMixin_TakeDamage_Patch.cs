@@ -29,7 +29,7 @@ namespace DrillDamage
                 if (__instance.health > 0f)
                 {
                     calling = true;
-                    __instance.TakeDamage(Plugin.ConfigAdditionalDamage.Value, default, type);
+                    __instance.TakeDamage(Plugin.ConfigCreatureDamage.Value, default, type);
                     calling = false;
                 }
             }
