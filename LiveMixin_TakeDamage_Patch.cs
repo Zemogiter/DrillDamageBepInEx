@@ -21,7 +21,7 @@ namespace DrillDamage
                     return true;
                 }
                 liveMixerLog.LogInfo("DrillDamage.LiveMixin.TakeDamage");
-                if (type != DamageType.Drill || !Plugin.ConfigAffectCreatures.Value)
+                if (type != DamageType.Drill || !Plugin.Options.affectcreatures)
                 {
                     return true;
                 }
@@ -29,7 +29,8 @@ namespace DrillDamage
                 if (__instance.health > 0f)
                 {
                     calling = true;
-                    __instance.TakeDamage(Plugin.ConfigCreatureDamage.Value, default, type);
+                    //__instance.TakeDamage(Plugin.ConfigCreatureDamage.Value, default, type);
+                    __instance.TakeDamage(Plugin.Options.additionaldamagecreatures, default, type);
                     calling = false;
                 }
             }

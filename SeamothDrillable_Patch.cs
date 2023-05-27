@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using static VFXParticlesPool;
 using System.Collections.Generic;
 using System.Reflection;
 using BepInEx.Logging;
@@ -22,7 +21,30 @@ namespace DrillDamage
             {
                 PropertyInfo drillDamage = seamothDrillable.GetType().GetProperty("drillDamage");
 
-                if (Plugin.ConfigAffectSeamothArms.Value == true && Plugin.ConfigVariableModeEnabled.Value == false && Plugin.ConfigSeamothAdditionalDamage.Value > 0)//regular
+                if (Plugin.Options.affectsseamotharms == true && Plugin.Options.variablemode == false && 10 > 0)//regular
+                {
+                    drillDamage.SetValue(seamothDrillable, Plugin.Options.additionaldamageseamotharms);
+                }
+                else if (Plugin.Options.affectsseamotharms == true && Plugin.Options.variablemode == false && Plugin.Options.additionaldamageseamotharms == 1)//vanilla
+                {
+                    drillDamage.SetValue(seamothDrillable, 1);
+                }
+                else if (Plugin.Options.affectsseamotharms == true && Plugin.Options.variablemode == true)//variable mode enabled
+                {
+                    TechType key = __instance.GetDominantResourceType();
+                    if (Plugin.Options.debugmode == true)
+                    {
+                        seamothLogSource.LogInfo("The techType is = " + key);
+                    }
+                    bool valueGet = ConfigDictionaryStorage.ConfigDictionary.TryGetValue(key, out int value);
+                    if (Plugin.Options.debugmode == true)
+                    {
+                        seamothLogSource.LogInfo("Was the value obtained? " + valueGet + " Value is = " + value);
+                    }
+                    drillDamage.SetValue(seamothDrillable, value);
+                }
+
+                /*if (Plugin.ConfigAffectSeamothArms.Value == true && Plugin.ConfigVariableModeEnabled.Value == false && Plugin.ConfigSeamothAdditionalDamage.Value > 0)//regular
                 {
                     drillDamage.SetValue(seamothDrillable, Plugin.ConfigAdditionalDamage.Value);
                 }
@@ -43,7 +65,7 @@ namespace DrillDamage
                         seamothLogSource.LogInfo("Was the value obtained? " + valueGet + " Value is = " + value);
                     }
                     drillDamage.SetValue(seamothDrillable, value);
-                }
+                }*/
             }
         }
     }

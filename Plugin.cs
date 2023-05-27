@@ -3,6 +3,7 @@ using System.Reflection;
 using HarmonyLib;
 using BepInEx;
 using BepInEx.Configuration;
+using Nautilus.Handlers;
 
 namespace DrillDamage
 {
@@ -14,20 +15,22 @@ namespace DrillDamage
             MODNAME = "DrillDamage",
             AUTHOR = "russleeiv",
             GUID = "russleeiv.subnautica.drilldamage",
-            VERSION = "1.3.2.0";
+            VERSION = "1.3.3.0";
         #endregion
+
+        internal static Config Options { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
 
         public void Awake()
         {
             Logger.LogInfo("DrillDamage - Started patching v" + Assembly.GetExecutingAssembly().GetName().Version.ToString(3));
-            InitializeConfig();
+            //InitializeConfig();
             var harmony = new Harmony(GUID);
             harmony.PatchAll(Assembly.GetExecutingAssembly());
 
             Logger.LogInfo("DrillDamage - Finished patching");
         }
 
-        public static ConfigEntry<int> ConfigAdditionalDamage;
+        /*public static ConfigEntry<int> ConfigAdditionalDamage;
         public static ConfigEntry<bool> ConfigAffectCreatures;
         public static ConfigEntry <int> ConfigCreatureDamage;
         public static ConfigEntry<bool> ConfigAffectSeamothArms;
@@ -76,6 +79,6 @@ namespace DrillDamage
             ConfigDrillableNickelDamage = Config.Bind(new ConfigDefinition("Variable Mode", "Additional Damage - Nickiel"), 4, new ConfigDescription("This number will be added to drill damage calculation of this mineable resource, making it faster.", new AcceptableValueRange<int>(0, 999)));
             ConfigDrillableSulphurDamage = Config.Bind(new ConfigDefinition("Variable Mode", "Additional Damage - Sulphur"), 15, new ConfigDescription("This number will be added to drill damage calculation of this mineable resource, making it faster.", new AcceptableValueRange<int>(0, 999)));
             ConfigDrillableKyaniteDamage = Config.Bind(new ConfigDefinition("Variable Mode", "Additional Damage - Kyanite"), 2, new ConfigDescription("This number will be added to drill damage calculation of this mineable resource, making it faster.", new AcceptableValueRange<int>(0, 999)));
-        }
+        }*/
     }
 }

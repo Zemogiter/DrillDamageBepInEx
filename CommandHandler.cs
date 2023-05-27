@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
-using SMLHelper.V2.Commands;
+using Nautilus.Commands;
 using UnityEngine;
 using UWE;
 using System.Text;
@@ -19,7 +19,7 @@ namespace DrillDamage
 
         public static void DrillableGallery(NotificationCenter.Notification n)
         {
-            if(Plugin.ConfigDebugMode.Value == true)
+            if(Plugin.Options.debugmode == true)
             {
                 TechType[] techTypes = new TechType[15];
                 techTypes[0] = TechType.DrillableAluminiumOxide;

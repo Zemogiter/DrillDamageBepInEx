@@ -18,7 +18,7 @@ namespace DrillDamage
             BepInEx.Logging.Logger.Sources.Add(errorLogSource);
             var matcher = new CodeMatcher(cins);
 
-            matcher.MatchForward(false, new CodeMatch(OpCodes.Ldc_R4, 5f));
+            matcher.MatchForward(true, new CodeMatch(OpCodes.Ldc_R4, 5f));
             if (matcher.IsValid)
             {
                 matcher.SetAndAdvance(OpCodes.Ldarg_0, null);
@@ -33,6 +33,39 @@ namespace DrillDamage
         }
 
         public static int GetDamageForDrillable(Drillable drillable)
+        {
+            var exosuitLogSource = new ManualLogSource("DrillDamage - Seamoth");
+            BepInEx.Logging.Logger.Sources.Add(exosuitLogSource);
+            int newDamage;
+            //regular
+            if (Plugin.Options.variablemode == false && Plugin.Options.additionaldamage > 1)
+            {
+                newDamage = Plugin.Options.additionaldamage;
+            }
+            //vanilla
+            else if (Plugin.Options.variablemode == false && Plugin.Options.additionaldamage == 1)
+            {
+                newDamage = 1;
+            }
+            //variable mode enabled
+            else
+            {
+                TechType key = drillable.GetDominantResourceType();
+                if (Plugin.Options.variablemode == true)
+                {
+                    exosuitLogSource.LogInfo("The techType is = " + key);
+                }
+                var valueGet = ConfigDictionaryStorage.ConfigDictionary.TryGetValue(key, out int value);
+                if (Plugin.Options.debugmode == true)
+                {
+                    exosuitLogSource.LogInfo("Was the value obtained? " + valueGet + " Value is = " + value);
+                }
+                newDamage = value;
+            }
+            return newDamage;
+        }
+
+        /*public static int GetDamageForDrillable(Drillable drillable)
         {
             var exosuitLogSource = new ManualLogSource("DrillDamage - Seamoth");
             BepInEx.Logging.Logger.Sources.Add(exosuitLogSource);
@@ -63,6 +96,6 @@ namespace DrillDamage
                 newDamage = value;
             }
             return newDamage;
-        }
+        }*/
     }
 }
