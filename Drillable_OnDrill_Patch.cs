@@ -4,15 +4,36 @@ using System.Reflection.Emit;
 using System;
 using UnityEngine;
 using BepInEx.Logging;
+using static RootMotion.BipedNaming;
+using System.Reflection;
 
 namespace DrillDamage
 {
     [HarmonyPatch(typeof(Drillable), nameof(Drillable.OnDrill))]
-    internal class Drillable_Transpiler_Patch
+    public class Drillable_Transpiler_Patch
     {
-        
+        static FieldInfo f_someField = AccessTools.Field(typeof(Drillable), nameof(Drillable.drillDamage));
         [HarmonyTranspiler]
-        internal static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> cins)
+        static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+        {
+            var code = new List<CodeInstruction>(instructions);
+            var errorLogSource = new ManualLogSource("DrillDamage - Error");
+            BepInEx.Logging.Logger.Sources.Add(errorLogSource);
+            var found = false;
+            foreach (var instruction in instructions)
+            {
+                if (instruction.StoresField(f_someField))
+                {
+                    yield return new CodeInstruction(OpCodes.Call, typeof(Drillable_Transpiler_Patch).GetMethod(nameof(GetDamageForDrillable)));
+                    found = true;
+                }
+                yield return instruction;
+            }
+            if (found is false)
+                errorLogSource.LogError("Cannot find <Stdfld drillDamage> in Drillable");
+        }
+        /*[HarmonyTranspiler]
+        static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> cins)
         {
             var errorLogSource = new ManualLogSource("DrillDamage - Error");
             BepInEx.Logging.Logger.Sources.Add(errorLogSource);
@@ -30,7 +51,7 @@ namespace DrillDamage
                 errorLogSource.LogError($"Failed to find matching instructions for {nameof(Drillable_Transpiler_Patch)}. Either another mod has already transpiled this or the games code has changed.");
             }
             return cins;
-        }
+        }*/
 
         public static int GetDamageForDrillable(Drillable drillable)
         {
