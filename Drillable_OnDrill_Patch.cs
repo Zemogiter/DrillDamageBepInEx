@@ -4,19 +4,70 @@ using System.Reflection.Emit;
 using System;
 using UnityEngine;
 using BepInEx.Logging;
-using static RootMotion.BipedNaming;
 using System.Reflection;
+using static RootMotion.FinalIK.GrounderQuadruped;
+using HarmonyLib.Tools;
 
 namespace DrillDamage
 {
-    [HarmonyPatch(typeof(Drillable), nameof(Drillable.OnDrill))]
+    [HarmonyPatch(typeof(Drillable), "OnDrill")]
     public class Drillable_Transpiler_Patch
     {
-        static FieldInfo f_someField = AccessTools.Field(typeof(Drillable), nameof(Drillable.drillDamage));
-        [HarmonyTranspiler]
+        /*[HarmonyTranspiler]
+        [HarmonyDebug]
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            var code = new List<CodeInstruction>(instructions);
+            var errorLogSource = new ManualLogSource("DrillDamage - Error");
+            BepInEx.Logging.Logger.Sources.Add(errorLogSource);
+            CodeMatcher matcher = new(instructions);
+            matcher.MatchForward(true,
+                    new CodeMatch(OpCodes.Ldarg_0),
+                    new CodeMatch(OpCodes.Ldfld),
+                    new CodeMatch(OpCodes.Ldloc_2),
+                    new CodeMatch(OpCodes.Ldelem_R4),
+                    new CodeMatch(OpCodes.Stloc_S),
+                    new CodeMatch(OpCodes.Ldfld),
+                    new CodeMatch(OpCodes.Ldloc_2),
+                    new CodeMatch(OpCodes.Ldc_R4),
+                    new CodeMatch(OpCodes.Ldarg_0),
+                    new CodeMatch(OpCodes.Ldfld),
+                    new CodeMatch(OpCodes.Ldloc_2),
+                    new CodeMatch(OpCodes.Ldelem_R4),
+                    new CodeMatch(OpCodes.Ldc_R4))
+                .ThrowIfInvalid("ArgumentOutOfRangeException, you need to check the code. Details: " + matcher.IsValid + matcher.Opcode + matcher.Operand)
+                .Insert(new CodeInstruction(OpCodes.Call, typeof(Drillable_Transpiler_Patch).GetMethod(nameof(GetDamageForDrillable))));
+            return matcher.InstructionEnumeration();
+        }
+        */
+
+        [HarmonyTranspiler]
+        [HarmonyDebug]
+        static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> cins)
+        {
+            var errorLogSource = new ManualLogSource("DrillDamage - Error");
+            BepInEx.Logging.Logger.Sources.Add(errorLogSource);
+            CodeMatcher matcher = new(cins);
+            matcher.MatchForward(true, new CodeMatch(OpCodes.Ldc_R4, 5f));
+            if (matcher.IsValid)
+            {
+                matcher.SetAndAdvance(OpCodes.Ldarg_0, null);
+                matcher.ThrowIfInvalid("ArgumentOutOfRangeException, you need to check the code. Details: " + matcher.IsValid + matcher.Opcode + matcher.Operand);
+                matcher.Insert(new CodeInstruction(OpCodes.Call, typeof(Drillable_Transpiler_Patch).GetMethod(nameof(GetDamageForDrillable))));
+                return matcher.InstructionEnumeration();
+            }
+            else
+            {
+                errorLogSource.LogError($"Failed to find matching instructions. Either another mod has already transpiled this or the game's/Unity's code has changed.");
+            }
+            return cins;
+            
+        }
+        
+        /*static FieldInfo f_someField = AccessTools.Field(typeof(float), nameof(Drillable.drillDamage));
+        [HarmonyTranspiler]
+        [HarmonyDebug]
+        static IEnumerable<CodeInstruction> Transpiler2(IEnumerable<CodeInstruction> instructions)
+        {
             var errorLogSource = new ManualLogSource("DrillDamage - Error");
             BepInEx.Logging.Logger.Sources.Add(errorLogSource);
             var found = false;
@@ -30,34 +81,14 @@ namespace DrillDamage
                 yield return instruction;
             }
             if (found is false)
-                errorLogSource.LogError("Cannot find <Stdfld drillDamage> in Drillable");
-        }
-        /*[HarmonyTranspiler]
-        static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> cins)
-        {
-            var errorLogSource = new ManualLogSource("DrillDamage - Error");
-            BepInEx.Logging.Logger.Sources.Add(errorLogSource);
-            var matcher = new CodeMatcher(cins);
-
-            matcher.MatchForward(true, new CodeMatch(OpCodes.Ldc_R4, 5f));
-            if (matcher.IsValid)
-            {
-                matcher.SetAndAdvance(OpCodes.Ldarg_0, null);
-                matcher.Insert(new CodeInstruction(OpCodes.Call, typeof(Drillable_Transpiler_Patch).GetMethod(nameof(GetDamageForDrillable))));
-                return matcher.InstructionEnumeration();
-            }
-            else
-            {
-                errorLogSource.LogError($"Failed to find matching instructions for {nameof(Drillable_Transpiler_Patch)}. Either another mod has already transpiled this or the games code has changed.");
-            }
-            return cins;
+                errorLogSource.LogError("Cannot find <Stdfld drillDamage> in OriginalType.OriginalMethod");
         }*/
 
-        public static int GetDamageForDrillable(Drillable drillable)
+        public static float GetDamageForDrillable(Drillable drillable)
         {
-            var exosuitLogSource = new ManualLogSource("DrillDamage - Seamoth");
+            var exosuitLogSource = new ManualLogSource("DrillDamage - Prawn Suit");
             BepInEx.Logging.Logger.Sources.Add(exosuitLogSource);
-            int newDamage;
+            float newDamage;
             //regular
             if (Plugin.Options.variablemode == false && Plugin.Options.additionaldamage > 1)
             {
@@ -85,38 +116,5 @@ namespace DrillDamage
             }
             return newDamage;
         }
-
-        /*public static int GetDamageForDrillable(Drillable drillable)
-        {
-            var exosuitLogSource = new ManualLogSource("DrillDamage - Seamoth");
-            BepInEx.Logging.Logger.Sources.Add(exosuitLogSource);
-            int newDamage;
-            //regular
-            if (Plugin.ConfigVariableModeEnabled.Value == false && Plugin.ConfigAdditionalDamage.Value > 0)
-            {
-                newDamage = Plugin.ConfigAdditionalDamage.Value;
-            }
-            //vanilla
-            else if (Plugin.ConfigVariableModeEnabled.Value == false && Plugin.ConfigAdditionalDamage.Value == 0)
-            {
-                newDamage = 1;
-            }
-            //variable mode enabled
-            else
-            {
-                TechType key = drillable.GetDominantResourceType();
-                if (Plugin.ConfigDebugMode.Value == true)
-                {
-                    exosuitLogSource.LogInfo("The techType is = " + key);
-                }
-                var valueGet = ConfigDictionaryStorage.ConfigDictionary.TryGetValue(key, out int value);
-                if (Plugin.ConfigDebugMode.Value == true)
-                {
-                    exosuitLogSource.LogInfo("Was the value obtained? " + valueGet + " Value is = " + value);
-                }
-                newDamage = value;
-            }
-            return newDamage;
-        }*/
     }
 }

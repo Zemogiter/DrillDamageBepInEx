@@ -5,6 +5,8 @@ using BepInEx.Logging;
 
 namespace DrillDamage
 {
+    [HarmonyPatch(typeof(LiveMixin))]
+    [HarmonyPatch("TakeDamage")]
     public class LiveMixin_TakeDamage_Patch
     {
         private static bool calling;
@@ -20,16 +22,21 @@ namespace DrillDamage
                 {
                     return true;
                 }
-                liveMixerLog.LogInfo("DrillDamage.LiveMixin.TakeDamage");
-                if (type != DamageType.Drill || !Plugin.Options.affectcreatures)
+                if(Plugin.Options.debugmode == true)
+                {
+                    liveMixerLog.LogInfo("DrillDamage.LiveMixin.TakeDamage");
+                }
+                if (type != DamageType.Drill || Plugin.Options.affectcreatures == false)
                 {
                     return true;
                 }
-                liveMixerLog.LogInfo("DrillDamage.LiveMixin.TakeDamage Damage");
+                if (Plugin.Options.debugmode == true)
+                {
+                    liveMixerLog.LogInfo("DrillDamage.LiveMixin.TakeDamage");
+                }
                 if (__instance.health > 0f)
                 {
                     calling = true;
-                    //__instance.TakeDamage(Plugin.ConfigCreatureDamage.Value, default, type);
                     __instance.TakeDamage(Plugin.Options.additionaldamagecreatures, default, type);
                     calling = false;
                 }
