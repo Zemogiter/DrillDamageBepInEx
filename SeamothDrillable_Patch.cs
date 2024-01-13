@@ -21,15 +21,18 @@ namespace DrillDamage
             {
                 PropertyInfo drillDamage = seamothDrillable.GetType().GetProperty("drillDamage");
 
-                if (Plugin.Options.affectsseamotharms == true && Plugin.Options.variablemode == false)//regular
+                //regular
+                if (Plugin.Options.affectsseamotharms == true && Plugin.Options.variablemode == false)
                 {
                     drillDamage.SetValue(seamothDrillable, Plugin.Options.additionaldamageseamotharms);
                 }
-                else if (Plugin.Options.affectsseamotharms == true && Plugin.Options.variablemode == false && Plugin.Options.additionaldamageseamotharms == 1)//vanilla
+                //vanilla
+                else if (Plugin.Options.affectsseamotharms == true && Plugin.Options.variablemode == false && Plugin.Options.additionaldamageseamotharms == 1)
                 {
                     drillDamage.SetValue(seamothDrillable, 1);
                 }
-                else if (Plugin.Options.affectsseamotharms == true && Plugin.Options.variablemode == true)//variable mode enabled
+                //variable mode enabled
+                else if (Plugin.Options.affectsseamotharms == true && Plugin.Options.variablemode == true) 
                 {
                     TechType key = __instance.GetDominantResourceType();
                     if (Plugin.Options.debugmode == true)

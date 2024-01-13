@@ -1,45 +1,13 @@
 using HarmonyLib;
 using System.Collections.Generic;
 using System.Reflection.Emit;
-using System;
-using UnityEngine;
 using BepInEx.Logging;
-using System.Reflection;
-using static RootMotion.FinalIK.GrounderQuadruped;
-using HarmonyLib.Tools;
 
 namespace DrillDamage
 {
     [HarmonyPatch(typeof(Drillable), "OnDrill")]
     public class Drillable_Transpiler_Patch
     {
-        /*[HarmonyTranspiler]
-        [HarmonyDebug]
-        static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
-        {
-            var errorLogSource = new ManualLogSource("DrillDamage - Error");
-            BepInEx.Logging.Logger.Sources.Add(errorLogSource);
-            CodeMatcher matcher = new(instructions);
-            matcher.MatchForward(true,
-                    new CodeMatch(OpCodes.Ldarg_0),
-                    new CodeMatch(OpCodes.Ldfld),
-                    new CodeMatch(OpCodes.Ldloc_2),
-                    new CodeMatch(OpCodes.Ldelem_R4),
-                    new CodeMatch(OpCodes.Stloc_S),
-                    new CodeMatch(OpCodes.Ldfld),
-                    new CodeMatch(OpCodes.Ldloc_2),
-                    new CodeMatch(OpCodes.Ldc_R4),
-                    new CodeMatch(OpCodes.Ldarg_0),
-                    new CodeMatch(OpCodes.Ldfld),
-                    new CodeMatch(OpCodes.Ldloc_2),
-                    new CodeMatch(OpCodes.Ldelem_R4),
-                    new CodeMatch(OpCodes.Ldc_R4))
-                .ThrowIfInvalid("ArgumentOutOfRangeException, you need to check the code. Details: " + matcher.IsValid + matcher.Opcode + matcher.Operand)
-                .Insert(new CodeInstruction(OpCodes.Call, typeof(Drillable_Transpiler_Patch).GetMethod(nameof(GetDamageForDrillable))));
-            return matcher.InstructionEnumeration();
-        }
-        */
-
         [HarmonyTranspiler]
         [HarmonyDebug]
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> cins)
@@ -62,27 +30,6 @@ namespace DrillDamage
             return cins;
             
         }
-        
-        /*static FieldInfo f_someField = AccessTools.Field(typeof(float), nameof(Drillable.drillDamage));
-        [HarmonyTranspiler]
-        [HarmonyDebug]
-        static IEnumerable<CodeInstruction> Transpiler2(IEnumerable<CodeInstruction> instructions)
-        {
-            var errorLogSource = new ManualLogSource("DrillDamage - Error");
-            BepInEx.Logging.Logger.Sources.Add(errorLogSource);
-            var found = false;
-            foreach (var instruction in instructions)
-            {
-                if (instruction.StoresField(f_someField))
-                {
-                    yield return new CodeInstruction(OpCodes.Call, typeof(Drillable_Transpiler_Patch).GetMethod(nameof(GetDamageForDrillable)));
-                    found = true;
-                }
-                yield return instruction;
-            }
-            if (found is false)
-                errorLogSource.LogError("Cannot find <Stdfld drillDamage> in OriginalType.OriginalMethod");
-        }*/
 
         public static float GetDamageForDrillable(Drillable drillable)
         {

@@ -1,5 +1,4 @@
 ﻿using Nautilus.Json;
-using Nautilus.Options;
 using Nautilus.Options.Attributes;
 
 namespace DrillDamage
@@ -9,6 +8,7 @@ namespace DrillDamage
     {
         [Slider("Additional Damage", Min = 1, Max = 100, DefaultValue = 10, Step = 1, Tooltip = "This number will be added to drill damage calculation, making it faster.")]
         public int additionaldamage = 10;
+        //public static string additionaldamageString = Plugin.Options.additionaldamage.ToString();
 
         [Toggle("Affect Creatures")]
         public bool affectcreatures = false;
@@ -16,7 +16,7 @@ namespace DrillDamage
         [Slider("Additional Damage - Creatures", Min = 1, Max = 100, DefaultValue = 10, Step = 1, Tooltip = "Will be the same as Additional Damage by default.")]
         public int additionaldamagecreatures = 10;
 
-        [Toggle("Affects Seamoth Arms")]
+        [Toggle("Affects Seamoth Arms", Tooltip = "Only works if Seamoth Arms mod is enabled.")]
         public bool affectsseamotharms = true;
 
         [Slider("Additional Damage - Seamoth Arms", Min = 1, Max = 100, DefaultValue = 10, Step = 1, Tooltip = "Will be the same as Additional Damage by default.")]

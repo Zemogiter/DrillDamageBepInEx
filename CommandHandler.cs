@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Linq;
-using Nautilus.Commands;
-using UnityEngine;
-using UWE;
-using System.Text;
-using System.Threading.Tasks;
-using static HandReticle;
+﻿using UnityEngine;
 
 namespace DrillDamage
 {
@@ -17,11 +9,10 @@ namespace DrillDamage
             DevConsole.RegisterConsoleCommand(this, "drillableGallery");
         }
 
-        public static void DrillableGallery(NotificationCenter.Notification n)
+        public static void DrillableGallery(NotificationCenter.Notification n, TechType[] techTypes)
         {
             if(Plugin.Options.debugmode == true)
             {
-                TechType[] techTypes = new TechType[15];
                 techTypes[0] = TechType.DrillableAluminiumOxide;
                 techTypes[1] = TechType.DrillableCopper;
                 techTypes[2] = TechType.DrillableDiamond;
@@ -42,12 +33,12 @@ namespace DrillDamage
                 foreach (TechType techType in techTypes)
                 {
                     ErrorMessage.AddMessage($"Spawning drillableGallery with {techTypes.Length} entities.");
-                    DevConsole.SendConsoleCommand($"item {techType.AsString(true)}");
+                    DevConsole.SendConsoleCommand($"spawn {techType.AsString(true)}");
                 }
             }
             else
             {
-                ErrorMessage.AddDebug("Debug Mode is not enabled. Press F5 (default) to enter BepInEx configuration and go to " + Plugin.MODNAME + " section");
+                ErrorMessage.AddDebug("Debug Mode is not enabled.");
             } 
         }
     }

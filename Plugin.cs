@@ -18,7 +18,7 @@ namespace DrillDamage
             VERSION = "1.3.3.0";
         #endregion
 
-        internal static Config Options { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+        public static Config Options { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
 
         public void Awake()
         {

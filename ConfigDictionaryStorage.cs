@@ -4,6 +4,7 @@ namespace DrillDamage
 {
     public static class ConfigDictionaryStorage
     {
+        //Old Dictionary, using BepinEx config
         /*public static Dictionary<TechType, int> ConfigDictionary = new()
         {
               { TechType.Salt, Plugin.ConfigDrillableSaltDamage.Value },
@@ -23,6 +24,7 @@ namespace DrillDamage
               { TechType.Sulphur, Plugin.ConfigDrillableSulphurDamage.Value },
               { TechType.Kyanite, Plugin.ConfigDrillableKyaniteDamage.Value }
         };*/
+        //Curret Dictionary implementation, using Nautilus-powered in-game config
         public static Dictionary<TechType, int> ConfigDictionary = new()
         {
               { TechType.Salt, Plugin.Options.additionaldamagesalt },
