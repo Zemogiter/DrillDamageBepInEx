@@ -22,19 +22,11 @@ namespace DrillDamage
                 {
                     return true;
                 }
-                if(Plugin.Options.debugmode == true)
-                {
-                    liveMixerLog.LogInfo("DrillDamage.LiveMixin.TakeDamage");
-                }
-                if (type != DamageType.Drill || Plugin.Options.affectcreatures == false)
+                if (type != DamageType.Drill || Plugin.Options.affectcreatures == false) //vanila behaviour
                 {
                     return true;
                 }
-                if (Plugin.Options.debugmode == true)
-                {
-                    liveMixerLog.LogInfo("DrillDamage.LiveMixin.TakeDamage");
-                }
-                if (__instance.health > 0f)
+                if (__instance.health > 0f) //mod behaviour
                 {
                     calling = true;
                     __instance.TakeDamage(Plugin.Options.additionaldamagecreatures, default, type);

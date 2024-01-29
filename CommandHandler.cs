@@ -29,6 +29,7 @@ namespace DrillDamage
                 techTypes[13] = TechType.DrillableSulphur;
                 techTypes[14] = TechType.DrillableTitanium;
                 techTypes[15] = TechType.DrillableUranium;
+                techTypes[16] = TechType.PrecursorIonCrystal; 
 
                 foreach (TechType techType in techTypes)
                 {

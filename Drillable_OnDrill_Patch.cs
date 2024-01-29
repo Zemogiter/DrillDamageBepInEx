@@ -13,7 +13,7 @@ namespace DrillDamage
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> cins)
         {
             var errorLogSource = new ManualLogSource("DrillDamage - Error");
-            BepInEx.Logging.Logger.Sources.Add(errorLogSource);
+            Logger.Sources.Add(errorLogSource);
             CodeMatcher matcher = new(cins);
             matcher.MatchForward(true, new CodeMatch(OpCodes.Ldc_R4, 5f));
             if (matcher.IsValid)
@@ -25,7 +25,7 @@ namespace DrillDamage
             }
             else
             {
-                errorLogSource.LogError($"Failed to find matching instructions. Either another mod has already transpiled this or the game's/Unity's code has changed.");
+                errorLogSource.LogError($"Failed to find matching instructions. Either another mod has already transpiled this or the code of the game/Unity engine has changed. Details: " + matcher.IsValid + matcher.Opcode + matcher.Operand);
             }
             return cins;
             
@@ -34,7 +34,7 @@ namespace DrillDamage
         public static float GetDamageForDrillable(Drillable drillable)
         {
             var exosuitLogSource = new ManualLogSource("DrillDamage - Prawn Suit");
-            BepInEx.Logging.Logger.Sources.Add(exosuitLogSource);
+            Logger.Sources.Add(exosuitLogSource);
             float newDamage;
             //regular
             if (Plugin.Options.variablemode == false && Plugin.Options.additionaldamage > 1)

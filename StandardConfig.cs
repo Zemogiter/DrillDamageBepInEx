@@ -8,7 +8,6 @@ namespace DrillDamage
     {
         [Slider("Additional Damage", Min = 1, Max = 100, DefaultValue = 10, Step = 1, Tooltip = "This number will be added to drill damage calculation, making it faster.")]
         public int additionaldamage = 10;
-        //public static string additionaldamageString = Plugin.Options.additionaldamage.ToString();
 
         [Toggle("Affect Creatures")]
         public bool affectcreatures = false;
@@ -75,5 +74,7 @@ namespace DrillDamage
 
         [Slider("Additional Damage - Kyanite", Min = 1, Max = 100, DefaultValue = 5, Step = 1, Tooltip = "This number will be added to drill damage calculation of this mineable resource, making it faster.")]
         public int additionaldamagekyanite = 5;
+        [Slider("additional Damage - Ion Cube", Min = 1, Max = 100, DefaultValue = 3, Step = 1, Tooltip = "This number will be added to drill damage calculation of this mineable resource, making it faster.")]
+        public int additionaldamageion = 3;
     }
 }
