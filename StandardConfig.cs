@@ -3,7 +3,7 @@ using Nautilus.Options.Attributes;
 
 namespace DrillDamage
 {
-    [Menu("DrillDamage Options")]
+    [Menu("DrillDamage Options - General")]
     public class Config : ConfigFile
     {
         [Slider("Additional Damage", Min = 1, Max = 100, DefaultValue = 10, Step = 1, Tooltip = "This number will be added to drill damage calculation, making it faster.")]
@@ -24,7 +24,13 @@ namespace DrillDamage
         [Toggle("Debug mode")]
         public bool debugmode = false;
 
-        [Toggle("Variable Mode", Tooltip = "Enabling this option will make the extra damage applied differ between the kinds of drillable resources. Disabled by default. Enabling this will ignore the Additional Damage and Additional Damage - Seamoth Arms.")]
+        
+    }
+
+    [Menu("DrillDamage Options - Variable Mode")]
+    public class ConfigVM : ConfigFile
+    {
+        [Toggle("Variable Mode", Tooltip = "Enabling this option will make the extra damage applied differ between the kinds of drillable resources. Disabled by default. Enabling this will ignore both ADs from General section.")]
         public bool variablemode;
 
         [Slider("Additional Damage - Salt", Min = 1, Max = 100, DefaultValue = 30, Step = 1, Tooltip = "This number will be added to drill damage calculation of this mineable resource, making it faster.")]
@@ -74,7 +80,9 @@ namespace DrillDamage
 
         [Slider("Additional Damage - Kyanite", Min = 1, Max = 100, DefaultValue = 5, Step = 1, Tooltip = "This number will be added to drill damage calculation of this mineable resource, making it faster.")]
         public int additionaldamagekyanite = 5;
-        [Slider("additional Damage - Ion Cube", Min = 1, Max = 100, DefaultValue = 3, Step = 1, Tooltip = "This number will be added to drill damage calculation of this mineable resource, making it faster.")]
+
+        [Slider("Additional Damage - Ion Cube", Min = 1, Max = 100, DefaultValue = 3, Step = 1, Tooltip = "This number will be added to drill damage calculation of this mineable resource, making it faster.")]
         public int additionaldamageion = 3;
     }
+
 }
