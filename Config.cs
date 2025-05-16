@@ -12,13 +12,13 @@ namespace DrillDamage
     [Menu("DrillDamage Options - General", LoadOn = (MenuAttribute.LoadEvents.MenuRegistered | MenuAttribute.LoadEvents.MenuOpened), SaveOn = (MenuAttribute.SaveEvents.ChangeValue | MenuAttribute.SaveEvents.SaveGame | MenuAttribute.SaveEvents.QuitGame))]
     public class Config : ConfigFile
     {
-        [Slider("*Additional Damage - Main*", Min = 1, Max = 100, DefaultValue = 10, Step = 1, Tooltip = "This number will be added to drill damage calculation, making it faster.")]
+        [Slider("Additional Damage - Main", Min = 1, Max = 100, DefaultValue = 10, Step = 1, Tooltip = "This number will be added to drill damage calculation, making it faster.")]
         public int additionaldamage = 10;
 
         [Toggle("Affect Creatures")]
         public bool affectcreatures = false;
 
-        private int _additionaldamagecreatures;
+        public int _additionaldamagecreatures;
         [Slider("Additional Damage - Creatures", Min = 1, Max = 100, DefaultValue = 10, Step = 1, Tooltip = "Will be the same as Additional Damage by default.")]
         public int additionaldamagecreatures
         {
@@ -29,7 +29,7 @@ namespace DrillDamage
         [Toggle("Affects Seamoth Arms", Tooltip = "Only works if Seamoth Arms mod is enabled.")]
         public bool affectsseamotharms = true;
 
-        private int _additionaldamageseamotharms;
+        public int _additionaldamageseamotharms;
         [Slider("Additional Damage - Seamoth Arms", Min = 1, Max = 100, DefaultValue = 10, Step = 1, Tooltip = "Will be the same as Additional Damage by default.")]
         public int additionaldamageseamotharms
         {
@@ -40,7 +40,7 @@ namespace DrillDamage
         [Toggle("Affects Vehicle Framework drills", Tooltip = "Only works if Vehicle Framework mod is enabled.")]
         public bool affectsvehicleframeworkdrills = true;
 
-        private int _additionaldamagevehicleframeworkdrills; 
+        public int _additionaldamagevehicleframeworkdrills; 
         [Slider("Additional Damage - Vehicle Framework drills", Min = 1, Max = 100, DefaultValue = 10, Step = 1, Tooltip = "Will be the same as Additional Damage by default.")]
         public int additionaldamagevehicleframeworkdrills
         {
@@ -63,7 +63,7 @@ namespace DrillDamage
                 Instance.Save();
                 foreach (KeyValuePair<string, int> drillableOre in DrillableOreList)
                 {
-                    ModSliderOption option = ModSliderOption.Create(drillableOre.Key, drillableOre.Key, 0f, 100f, drillableOre.Value, drillableOre.Value);
+                    ModSliderOption option = ModSliderOption.Create(drillableOre.Key, drillableOre.Key, 0f, 100f, drillableOre.Value, drillableOre.Value, default, 1, "This number will be added to drill damage calculation of this mineable resource, making it faster.");
                     option.OnChanged += delegate (object sender, SliderChangedEventArgs args)
                     {
                         DrillableOreList[drillableOre.Key] = Mathf.CeilToInt(args.Value);
@@ -75,7 +75,7 @@ namespace DrillDamage
 
             public override void BuildModOptions(uGUI_TabbedControlsPanel panel, int modsTabIndex, IReadOnlyCollection<OptionItem> options)
             {
-                base.BuildModOptions(panel, modsTabIndex, (IReadOnlyCollection<OptionItem>)(object)options.OrderBy((OptionItem o) => o.Label).ToArray());
+                base.BuildModOptions(panel, modsTabIndex, (IReadOnlyCollection<OptionItem>)(object)options.OrderBy((OptionItem o) => o.OptionGameObject));
             }
         }
         public Dictionary<string, int> drillableOreList = [];

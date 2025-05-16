@@ -18,14 +18,14 @@ namespace DrillDamage
             VERSION = "1.3.5.0";
         #endregion
 
-        public static Config Options { get; set; } = OptionsPanelHandler.RegisterModOptions<Config>();
+        //public static Config Options { get; set; } = OptionsPanelHandler.RegisterModOptions<Config>();
 
         public void Awake()
         {
-            Logger.LogInfo("DrillDamage - Started patching v" + Assembly.GetExecutingAssembly().GetName().Version.ToString(3));
-            var harmony = new Harmony(GUID);
-            harmony.PatchAll(Assembly.GetExecutingAssembly());
-
+            Logger.LogInfo("DrillDamage - Started patching v" + Assembly.GetExecutingAssembly().GetName().Version.ToString());
+            DrillDamage.Config.Register();
+            //var harmony = new Harmony(GUID);
+            Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly());
             Logger.LogInfo("DrillDamage - Finished patching");
         }
     }

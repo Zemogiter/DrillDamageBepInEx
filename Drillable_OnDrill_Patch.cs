@@ -37,12 +37,12 @@ namespace DrillDamage
             Logger.Sources.Add(exosuitLogSource);
             float newDamage;
             //regular
-            if (Plugin.Options.variablemode == false && Plugin.Options.additionaldamage > 1)
+            if (Config.Instance.variablemode == false && Config.Instance.additionaldamage > 1)
             {
-                newDamage = Plugin.Options.additionaldamage;
+                newDamage = Config.Instance.additionaldamage;
             }
             //vanilla
-            else if (Plugin.Options.variablemode == false && Plugin.Options.additionaldamage == 1)
+            else if (Config.Instance.variablemode == false && Config.Instance.additionaldamage == 1)
             {
                 newDamage = 1;
             }
@@ -50,12 +50,12 @@ namespace DrillDamage
             else
             {
                 TechType key = drillable.GetDominantResourceType();
-                if (Plugin.Options.variablemode == true)
+                if (Config.Instance.variablemode == true)
                 {
                     exosuitLogSource.LogInfo("The techType is = " + key);
                 }
                 var valueGet = Config.Instance.drillableOreList.TryGetValue(key.AsString(), out int value);
-                if (Plugin.Options.debugmode == true)
+                if (Config.Instance.debugmode == true)
                 {
                     exosuitLogSource.LogInfo("Was the value obtained? " + valueGet + " Value is = " + value);
                 }

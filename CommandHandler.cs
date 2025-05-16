@@ -11,7 +11,7 @@ namespace DrillDamage
 
         public static void DrillableGallery(NotificationCenter.Notification n, TechType[] techTypes)
         {
-            if(Plugin.Options.debugmode == true)
+            if(Config.Instance.debugmode == true)
             {
                 techTypes[0] = TechType.DrillableAluminiumOxide;
                 techTypes[1] = TechType.DrillableCopper;

@@ -21,14 +21,14 @@ namespace DrillDamage
                 {
                     return true;
                 }
-                if (type != DamageType.Drill || Plugin.Options.affectcreatures == false) //vanila behaviour
+                if (type != DamageType.Drill || Config.Instance.affectcreatures == false) //vanila behaviour
                 {
                     return true;
                 }
                 if (__instance.health > 0f) //mod behaviour
                 {
                     calling = true;
-                    __instance.TakeDamage(Plugin.Options.additionaldamagecreatures, default, type);
+                    __instance.TakeDamage(Config.Instance.additionaldamagecreatures, default, type);
                     calling = false;
                 }
             }

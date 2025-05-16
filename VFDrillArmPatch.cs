@@ -25,25 +25,25 @@ namespace DrillDamage
                 PropertyInfo drillDamage = vfDrillArm.GetType().GetProperty("drillDamage");
 
                 //regular
-                if (Plugin.Options.affectsvehicleframeworkdrills == true && Plugin.Options.variablemode == false)
+                if (Config.Instance.affectsvehicleframeworkdrills == true && Config.Instance.variablemode == false)
                 {
-                    drillDamage.SetValue(vfDrillArm, Plugin.Options.additionaldamageseamotharms);
+                    drillDamage.SetValue(vfDrillArm, Config.Instance.additionaldamageseamotharms);
                 }
                 //vanilla
-                else if (Plugin.Options.affectsvehicleframeworkdrills == true && Plugin.Options.variablemode == false && Plugin.Options.additionaldamageseamotharms == 1)
+                else if (Config.Instance.affectsvehicleframeworkdrills == true && Config.Instance.variablemode == false && Config.Instance.additionaldamageseamotharms == 1)
                 {
                     drillDamage.SetValue(vfDrillArm, 1);
                 }
                 //variable mode enabled
-                else if (Plugin.Options.affectsvehicleframeworkdrills == true && Plugin.Options.variablemode == true)
+                else if (Config.Instance.affectsvehicleframeworkdrills == true && Config.Instance.variablemode == true)
                 {
                     TechType key = __instance.GetDominantResourceType();
-                    if (Plugin.Options.debugmode == true)
+                    if (Config.Instance.debugmode == true)
                     {
                         VFLogSource.LogInfo("The techType is = " + key);
                     }
                     var valueGet = Config.Instance.drillableOreList.TryGetValue(key.AsString(), out int value);
-                    if (Plugin.Options.debugmode == true)
+                    if (Config.Instance.debugmode == true)
                     {
                         VFLogSource.LogInfo("Was the value obtained? " + valueGet + ". If so, the value is = " + value);
                     }
