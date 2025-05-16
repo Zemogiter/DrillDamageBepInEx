@@ -15,10 +15,10 @@ namespace DrillDamage
             MODNAME = "DrillDamage",
             AUTHOR = "russleeiv",
             GUID = "russleeiv.subnautica.drilldamage",
-            VERSION = "1.3.4.0";
+            VERSION = "1.3.5.0";
         #endregion
 
-        public static Config Options { get; } = OptionsPanelHandler.RegisterModOptions<Config>();
+        public static Config Options { get; set; } = OptionsPanelHandler.RegisterModOptions<Config>();
 
         public void Awake()
         {

@@ -54,7 +54,7 @@ namespace DrillDamage
                 {
                     exosuitLogSource.LogInfo("The techType is = " + key);
                 }
-                var valueGet = ConfigDictionaryStorage.ConfigDictionary.TryGetValue(key, out int value);
+                var valueGet = Config.Instance.drillableOreList.TryGetValue(key.AsString(), out int value);
                 if (Plugin.Options.debugmode == true)
                 {
                     exosuitLogSource.LogInfo("Was the value obtained? " + valueGet + " Value is = " + value);

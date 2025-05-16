@@ -17,7 +17,7 @@ namespace DrillDamage
             BepInEx.Logging.Logger.Sources.Add(seamothLogSource);
             var seamothDrillable = __instance.gameObject.GetComponent("SeamothDrillable");
 
-            if (seamothDrillable != null) // if SeamothDrillable component is available on resource, processing the drill damage value else do nothing
+            if (seamothDrillable != null) // if SeamothDrillable component is available on resource, processing the drill damage value, else do nothing
             {
                 PropertyInfo drillDamage = seamothDrillable.GetType().GetProperty("drillDamage");
 
@@ -39,10 +39,10 @@ namespace DrillDamage
                     {
                         seamothLogSource.LogInfo("The techType is = " + key);
                     }
-                    bool valueGet = ConfigDictionaryStorage.ConfigDictionary.TryGetValue(key, out int value);
+                    var valueGet = Config.Instance.drillableOreList.TryGetValue(key.AsString(), out int value);
                     if (Plugin.Options.debugmode == true)
                     {
-                        seamothLogSource.LogInfo("Was the value obtained? " + valueGet + " Value is = " + value);
+                        seamothLogSource.LogInfo("Was the value obtained? " + valueGet + ". If so, the value is = " + value);
                     }
                     drillDamage.SetValue(seamothDrillable, value);
                 }

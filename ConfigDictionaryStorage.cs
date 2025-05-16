@@ -2,7 +2,7 @@
 
 namespace DrillDamage
 {
-    public static class ConfigDictionaryStorage
+    /*public static class ConfigDictionaryStorage
     {
         public static Dictionary<TechType, int> ConfigDictionary = new()
         {
@@ -24,5 +24,5 @@ namespace DrillDamage
               { TechType.Kyanite, Plugin.Options.additionaldamagekyanite },
               { TechType.PrecursorIonCrystal, Plugin.Options.additionaldamageion }
         };
-    }
+    }*/
 }

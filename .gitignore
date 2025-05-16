@@ -17,3 +17,5 @@ obj/project.assets.json
 obj/DrillDamage.csproj.nuget.dgspec.json
 obj/Debug/net472/DrillDamage.sourcelink.json
 *.bin
+/.vs
+/obj
