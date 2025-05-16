@@ -14,7 +14,7 @@ namespace DrillDamage
         public static bool TakeDamage(LiveMixin __instance, DamageType type)
         {
             var liveMixerLog = new ManualLogSource("DrillDamage - Creatures");
-            BepInEx.Logging.Logger.Sources.Add(liveMixerLog);
+            Logger.Sources.Add(liveMixerLog);
             try
             {
                 if (calling)

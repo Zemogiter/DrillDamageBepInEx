@@ -75,7 +75,7 @@ namespace DrillDamage
 
             public override void BuildModOptions(uGUI_TabbedControlsPanel panel, int modsTabIndex, IReadOnlyCollection<OptionItem> options)
             {
-                base.BuildModOptions(panel, modsTabIndex, (IReadOnlyCollection<OptionItem>)(object)options.OrderBy((OptionItem o) => o.OptionGameObject));
+                base.BuildModOptions(panel, modsTabIndex, base.Options);
             }
         }
         public Dictionary<string, int> drillableOreList = [];
